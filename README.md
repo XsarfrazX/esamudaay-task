@@ -16,7 +16,7 @@ Read more on Open-API [here](https://swagger.io/specification/)
 
 Use **build.sh** to build and run the project
 
-To bootstrap, Run: `./builder.sh -p -r`<br>
+To bootstrap, Run: `./build.sh -p -r`<br>
 The API server will be avaiable at localhost:8090 (it has a nice swagger UI)
 
 
