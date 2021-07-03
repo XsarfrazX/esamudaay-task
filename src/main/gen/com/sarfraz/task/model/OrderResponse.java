@@ -15,9 +15,9 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2021-07-03T16:26:22.933846+05:30[Asia/Calcutta]")
 public class OrderResponse   {
   @JsonProperty("order_total")
-  private Integer orderTotal;
+  private Long orderTotal;
 
-  public OrderResponse orderTotal(Integer orderTotal) {
+  public OrderResponse orderTotal(Long orderTotal) {
     this.orderTotal = orderTotal;
     return this;
   }
@@ -30,11 +30,11 @@ public class OrderResponse   {
   @NotNull
 
 
-  public Integer getOrderTotal() {
+  public Long getOrderTotal() {
     return orderTotal;
   }
 
-  public void setOrderTotal(Integer orderTotal) {
+  public void setOrderTotal(Long orderTotal) {
     this.orderTotal = orderTotal;
   }
 

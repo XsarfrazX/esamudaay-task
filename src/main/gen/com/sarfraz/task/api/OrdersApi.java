@@ -51,7 +51,7 @@ public interface OrdersApi {
         produces = { "application/json", "text/plain" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<OrderResponse> getOrderValue(@ApiParam(value = "" ,required=true )  @Valid @RequestBody OrderRequest orderRequest) {
+    default ResponseEntity<?> getOrderValue(@ApiParam(value = "" ,required=true )  @Valid @RequestBody OrderRequest orderRequest) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
