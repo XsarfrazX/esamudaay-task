@@ -47,8 +47,9 @@ The API server will be avaiable at localhost:8090 (it has a nice swagger UI)
 
 4. The Slabs are configurable through *src/main/resources/application.yml* file.<br>
      Slab config used is:
-     ``` 
-     slab-config:
+      
+~~~
+slab-config:
   slabs:
     - lower: 0 # lower limit in KM (inclusive)
       upper: 10 # upper limit in KM (exclusive)
@@ -61,6 +62,6 @@ The API server will be avaiable at localhost:8090 (it has a nice swagger UI)
       fee: 500
     - lower: 50 # last slab should not have upper field
       fee: 1000
-     ```
+~~~
       
-4. If the discount value comes more than the total value with discount, error code 422 (Unprocessable Enitity) is thrown.
+5. If the discount value comes more than the total value with discount, error code 422 (Unprocessable Enitity) is thrown.
