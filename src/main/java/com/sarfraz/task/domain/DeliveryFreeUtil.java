@@ -1,24 +1,35 @@
 package com.sarfraz.task.domain;
 
+import com.sarfraz.task.config.Slab;
+import com.sarfraz.task.config.SlabConfig;
 import org.javatuples.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
+
 //TODO: make slab configurable
 @Component
 public class DeliveryFreeUtil {
 
-    private static final long DELIVERY_FREE_0_TO_10_KM = 5000;
-    private static final long DELIVERY_FREE_10_TO_20_KM = 10000;
-    private static final long DELIVERY_FREE_20_TO_50_KM = 50000;
-    private static final long DELIVERY_FREE_50_KM = 100000;
-
-    private  HashMap<Long, Pair<Long,Long>> deliverySlab= new HashMap<>();
-
-    DeliveryFreeUtil() {
 
 
-        deliverySlab.put(50L, new Pair<Long,Long>(0L,10000L));
+    private static final Logger log = LoggerFactory.getLogger(DeliveryFreeUtil.class);
+    private static final long KM_TO_METER_MULTIPLE = 1000L;
+    private static final long INR_TO_PAISA_MULTIPLE = 100L;
+
+    @Autowired
+    SlabConfig slabConfig;
+
+    @PostConstruct
+    void init() {
+
+        log.info("Using Slab Configuration: {}", slabConfig.toString());
 
     }
 
@@ -29,22 +40,37 @@ public class DeliveryFreeUtil {
      */
     public long getDeliveryFee(long distance) {
 
-        if (distance >= 0 && distance <= 10000) {
-            return DELIVERY_FREE_0_TO_10_KM;
+        List<Slab> slabs =  slabConfig.getSlabs();
+
+        for(Slab slab: slabs) {
+
+            long lowerLimitInMeter =  slab.getLower() * KM_TO_METER_MULTIPLE;
+            long upperLimitInMeter = slab.getUpper() * KM_TO_METER_MULTIPLE;
+            long deliveryFee = slab.getFee() * INR_TO_PAISA_MULTIPLE;
+
+            // If upper-limit is 0, it means its the highest slab
+            if(upperLimitInMeter == 0L) {
+                if(distance >= lowerLimitInMeter) {
+                    log.info("Delivery slab used is: {}", slab);
+                    return deliveryFee;
+                }
+            }
+            if(distance >= lowerLimitInMeter && distance < upperLimitInMeter) {
+                log.info("Delivery slab used is: {}", slab);
+                return deliveryFee;
+            }
         }
-        else if (distance >= 10000 && distance < 20000) {
-            return DELIVERY_FREE_10_TO_20_KM;
-        }
-        else if(distance >= 20000 && distance < 50000) {
-            return DELIVERY_FREE_20_TO_50_KM;
-        }
-        else {
-            return DELIVERY_FREE_50_KM;
-        }
+        log.error("No delivery slab found");
+        return Long.MAX_VALUE;
+
 
 
 
     }
+
+//    private long kmToMeter(long km) {
+//
+//    }
 
 
 }

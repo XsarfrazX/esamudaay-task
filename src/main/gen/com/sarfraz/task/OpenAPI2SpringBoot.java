@@ -1,11 +1,13 @@
 package com.sarfraz.task;
 
 import com.fasterxml.jackson.databind.Module;
+import com.sarfraz.task.config.SlabConfig;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.sarfraz.task", "com.sarfraz.task.api" , "com.sarfraz.task.config"})
+@EnableConfigurationProperties(SlabConfig.class)
 public class OpenAPI2SpringBoot implements CommandLineRunner {
 
     @Override

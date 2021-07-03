@@ -1,0 +1,25 @@
+server:
+  port: 8090
+spring:
+  jackson:
+    date-format: com.sarfraz.task.RFC3339DateFormat
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+slab-config:
+  slabs:
+    - lower: 0 # lower limit in KM (inclusive)
+      upper: 10 # upper limit in KM (exclusive)
+      fee: 50 # fee in INR
+    - lower: 10
+      upper: 20
+      fee: 100
+    - lower: 20
+      upper: 50
+      fee: 500
+    - lower: 50
+      fee: 1000
