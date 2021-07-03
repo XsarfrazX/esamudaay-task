@@ -1,0 +1,132 @@
+openapi: 3.0.0
+
+info:
+  title: eSamudaay Assignment
+  description: Assigment as a part of eSamudaay hiring process
+  version: 0.0.1
+  contact:
+    name: Sarfraz Siddiqui
+    email: ssarfraz76@gmail.com
+
+servers:
+  - url: /v1
+    description: Base path of the server specifying version 1 of APIs
+
+
+paths:
+  /orders/values:
+    post:
+      operationId: getOrderValue
+      summary: Returns the total order value
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/order_request'
+      responses:
+        '200':
+          description: Total value of the order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/order_response'
+        '500':
+          description: Internal Server error if service is not functioning
+          content:
+            text/plain:
+              schema:
+                type: string           
+        '400':
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string    
+        '422':
+          description: Unprocessable entity in case offer value cannot be processed
+          content:
+            text/plain:
+              schema:
+                type: string
+
+
+                
+                
+          
+components:
+  schemas:
+    order_item:
+      description: Represents an order item  with name, price and quantity
+      type: object
+      required: 
+        - name
+        - quantity
+        - price
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 30
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 10
+        price:
+          description: Price of an item in paisas
+          type: integer
+          minimum: 1
+          maximum: 1000000
+
+
+    offer:
+      description: Represents an offer with type and value (if any)
+      type: object
+      required:
+        - offer_type
+      properties:
+        offer_type:
+          type: string
+          enum:
+            - FLAT
+            - DELIVERY
+        offer_val:
+          type: integer
+          minimum: 1
+
+
+    order_request:
+      type: object
+      required:
+        - order_items
+        - distance
+      properties:
+        order_items:
+          type: array
+          items: 
+            $ref: '#/components/schemas/order_item'
+        distance:
+          description: Distance in meters
+          type: integer
+          minimum: 0
+          maximum: 500000
+        offer:
+          $ref: '#/components/schemas/offer'
+
+
+    order_response:
+      type: object
+      required:
+        - order_total
+      properties:
+        order_total:
+          type: integer
+
+        
+
+
+    
+
+
+
+
